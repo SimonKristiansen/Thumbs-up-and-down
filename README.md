@@ -77,3 +77,118 @@ Felsökning
 "Dataset laddningsfel": Kontrollera att dataset_path är korrekt och att bilderna är i rätt format (JPG/PNG).
 "Modellfil saknas": Träna modellen först för att generera best_model.pth.
 GPU-problem: Om CUDA inte fungerar, kontrollerar koden automatiskt och faller tillbaka till CPU.
+
+________________________________________________________________________________________________________________________________________________-
+
+
+ConvNeXt Image Classification Model
+This project implements an image classification model based on the ConvNeXt Tiny architecture from PyTorch's torchvision. The model is pre-trained on ImageNet and fine-tuned to classify images from a custom dataset. The project includes data processing, training with early stopping, and prediction on individual images.
+
+Functions
+Data Augmentation: Advanced reinforcement with rotation, flip, Gaussian blur, etc.
+
+Training: Uses the AdamW optimizer and CrossEntropyLoss with scheduled learning rate.
+
+Validation: Evaluates the model's performance on a validation dataset after each epoch.
+
+Early Stopping: Stops the training early if the validation loss does not improve.
+
+Prediction: Classifies individual images with probability distribution over classes.
+
+Model Saving: Saves the best model based on validation loss.
+
+Prerequisites
+Python 3.8+
+
+PyTorch (torch, torchvision)
+
+PIL (Pillow)
+
+NumPy
+
+CUDA (optional, for GPU acceleration)
+
+Install dependencies with:
+
+text
+Radbryt
+Kopiera
+pip install torch torchvision pillow numpy
+Dataset
+The project expects a dataset in the following structure:
+
+text
+Radbryt
+Kopiera
+dataset_path/
+    class1/
+        image1.jpg
+        image2.jpg
+        ...
+    class2/
+        image1.jpg
+        image2.jpg
+        ...
+The default path is C:/Users/xxx/xxx/xxx/archive/train/train, but this can be changed in the code (dataset_path).
+
+Usage
+Train the Model
+Run the script without arguments to start training:
+
+text
+Radbryt
+Kopiera
+python script.py
+The training runs in 15 epochs (configurable) with a batch size of 16. The dataset is automatically divided into 80% training and 20% validation. The best model is saved as best_model.pth. The class names are saved as class_names.pkl for later use (e.g., in a GUI).
+
+2. Predict an Image
+Specify an image path as an argument to classify an image:
+
+text
+Radbryt
+Kopiera
+python script.py path/to/image.jpg
+The model loads the weights from best_model.pth. The output shows the predicted class with confidence as well as probabilities for all classes.
+
+Example Output
+text
+Radbryt
+Kopiera
+🔮 Predicted class: dog (Confidence: 92.34%)
+📊 Probability for each class:
+cat: 6.12%
+dog: 92.34%
+bird: 1.54%
+File Structure
+script.py: The main script for training and prediction.
+
+best_model.pth: Saved model weights (created during training).
+
+class_names.pkl: List of class names (created during training).
+
+Configuration
+Model: ConvNeXt Tiny (pre-trained on ImageNet).
+
+Learning Rate: 0.00008 (AdamW).
+
+Scheduler: StepLR (halves lr every 3rd epoch).
+
+Batch Size: 16.
+
+Early Stopping: Activated after 3 epochs without improvement.
+
+Customization
+Change dataset_path to your own data folder.
+
+Adjust transform to change data augmentation.
+
+Modify num_classes dynamically based on the dataset.
+
+Change training parameters like epochs, lr, or patience in train_model().
+
+Troubleshooting
+"Dataset loading error": Check that dataset_path is correct and that the images are in the right format (JPG/PNG).
+
+"Model file missing": Train the model first to generate best_model.pth.
+
+GPU problems: If CUDA does not work, the code automatically checks and falls back to CPU.
