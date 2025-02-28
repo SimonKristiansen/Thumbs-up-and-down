@@ -17,11 +17,17 @@ PyTorch (torch, torchvision)
 PIL (Pillow)
 NumPy
 CUDA (valfritt, för GPU-acceleration)
+
+
 Installera beroenden med:
 
 
 pip install torch torchvision pillow numpy
+
+
 Dataset
+
+
 Projektet förväntar sig ett dataset i följande struktur:
 
 
