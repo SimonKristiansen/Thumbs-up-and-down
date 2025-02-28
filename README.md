@@ -74,9 +74,15 @@ Anpassning
 Justera transform för att ändra data augmentation.
 Modifiera num_classes dynamiskt baserat på datasetet.
 Ändra träningsparametrar som epochs, lr, eller patience i train_model().
+
+
 Felsökning
 "Dataset laddningsfel": Kontrollera att dataset_path är korrekt och att bilderna är i rätt format (JPG/PNG).
+
+
 "Modellfil saknas": Träna modellen först för att generera best_model.pth.
+
+
 GPU-problem: Om CUDA inte fungerar, kontrollerar koden automatiskt och faller tillbaka till CPU.
 
 __________________________________________________________________________________________________________________________________
