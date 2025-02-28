@@ -110,16 +110,12 @@ CUDA (optional, for GPU acceleration)
 
 Install dependencies with:
 
-text
-Radbryt
-Kopiera
+
 pip install torch torchvision pillow numpy
 Dataset
 The project expects a dataset in the following structure:
 
-text
-Radbryt
-Kopiera
+
 dataset_path/
     class1/
         image1.jpg
@@ -135,25 +131,19 @@ Usage
 Train the Model
 Run the script without arguments to start training:
 
-text
-Radbryt
-Kopiera
+
 python script.py
 The training runs in 15 epochs (configurable) with a batch size of 16. The dataset is automatically divided into 80% training and 20% validation. The best model is saved as best_model.pth. The class names are saved as class_names.pkl for later use (e.g., in a GUI).
 
 2. Predict an Image
 Specify an image path as an argument to classify an image:
 
-text
-Radbryt
-Kopiera
+
 python script.py path/to/image.jpg
 The model loads the weights from best_model.pth. The output shows the predicted class with confidence as well as probabilities for all classes.
 
 Example Output
-text
-Radbryt
-Kopiera
+
 🔮 Predicted class: dog (Confidence: 92.34%)
 📊 Probability for each class:
 cat: 6.12%
