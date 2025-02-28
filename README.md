@@ -32,6 +32,7 @@ dataset_path/
         image1.jpg
         image2.jpg
         ...
+
 Standardvägen är C:/Users/xxx/xxx/xxx/archive/train/train, men detta kan ändras i koden (dataset_path).
 
 Användning
