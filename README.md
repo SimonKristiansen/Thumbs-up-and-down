@@ -78,11 +78,12 @@ Felsökning
 "Modellfil saknas": Träna modellen först för att generera best_model.pth.
 GPU-problem: Om CUDA inte fungerar, kontrollerar koden automatiskt och faller tillbaka till CPU.
 
-________________________________________________________________________________________________________________________________________________-
+__________________________________________________________________________________________________________________________________
 
 
 ConvNeXt Image Classification Model
-This project implements an image classification model based on the ConvNeXt Tiny architecture from PyTorch's torchvision. The model is pre-trained on ImageNet and fine-tuned to classify images from a custom dataset. The project includes data processing, training with early stopping, and prediction on individual images.
+This project implements an image classification model based on the ConvNeXt Tiny architecture from PyTorch's torchvision. The model is pre-trained on ImageNet and fine-tuned to classify images from a custom dataset. 
+The project includes data processing, training with early stopping, and prediction on individual images.
 
 Functions
 Data Augmentation: Advanced reinforcement with rotation, flip, Gaussian blur, etc.
