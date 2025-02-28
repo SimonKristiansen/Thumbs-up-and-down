@@ -130,7 +130,9 @@ Install dependencies with:
 
 
 pip install torch torchvision pillow numpy
+
 Dataset
+
 The project expects a dataset in the following structure:
 
 
@@ -143,6 +145,7 @@ dataset_path/
         image1.jpg
         image2.jpg
         ...
+
 The default path is C:/Users/xxx/xxx/xxx/archive/train/train, but this can be changed in the code (dataset_path).
 
 Usage
