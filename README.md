@@ -1,4 +1,6 @@
 ConvNeXt Bildklassificeringsmodell
+
+
 Detta projekt implementerar en bildklassificeringsmodell baserad på ConvNeXt Tiny-arkitekturen från PyTorchs torchvision. Modellen är förtränad på ImageNet och finjusteras för att klassificera bilder från ett anpassat dataset. 
 Projektet inkluderar databehandling, träning med early stopping och prediktion på enskilda bilder.
 
@@ -89,6 +91,8 @@ ________________________________________________________________________________
 
 
 ConvNeXt Image Classification Model
+
+
 This project implements an image classification model based on the ConvNeXt Tiny architecture from PyTorch's torchvision. The model is pre-trained on ImageNet and fine-tuned to classify images from a custom dataset. 
 The project includes data processing, training with early stopping, and prediction on individual images.
 
