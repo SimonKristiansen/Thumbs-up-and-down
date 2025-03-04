@@ -14,7 +14,7 @@ import sys
 import pickle
 
 # 🔹 Steg 1: Förbered datasetet
-dataset_path = "C:/Users/simon/Desktop/model/archive/train/train"
+dataset_path = "C:/Users/xxx/xxx/model/archive/train/train"
 
 # Förbättrad Data Augmentation (anpassad för ConvNeXt)
 transform = transforms.Compose([
