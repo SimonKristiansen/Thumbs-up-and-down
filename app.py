@@ -10,7 +10,7 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import pickle
 
-# 🔹 Definiera ConvNeXt-modellen (samma som i första programmet)
+)
 class ConvNeXtClassifier(nn.Module):
     def __init__(self, num_classes):
         super(ConvNeXtClassifier, self).__init__()
@@ -22,15 +22,15 @@ class ConvNeXtClassifier(nn.Module):
     def forward(self, x):
         return self.convnext(x)
 
-# 🔹 Definiera transform för bildförbehandling (samma som i första programmet)
+
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # ConvNeXt förväntar sig 224x224
+    transforms.Resize((224, 224)),  
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet-värden
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],  
                          std=[0.229, 0.224, 0.225])
 ])
 
-# 🔹 Funktion för rundade hörn
+
 def add_rounded_corners(image, radius):
     mask = Image.new("L", image.size, 0)
     draw = PIL.ImageDraw.Draw(mask)
@@ -39,25 +39,25 @@ def add_rounded_corners(image, radius):
     rounded_image.paste(image, (0, 0), mask)
     return rounded_image.convert("RGB")
 
-# 🔹 Ladda klasserna från träningsdatasetet
+
 try:
     with open("class_names.pkl", "rb") as f:
         class_names = pickle.load(f)
 except FileNotFoundError:
     print("⚠️ Filen 'class_names.pkl' saknas. Kör träningsprogrammet först för att generera den.")
-    class_names = ["Unknown"]  # Fallback om filen saknas
+    class_names = ["Unknown"] 
 
-# 🔹 Initialisera modellen
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ConvNeXtClassifier(num_classes=len(class_names)).to(device)
 
-# 🔹 Prediktionsfunktion
+
 def predict_image(image_path):
     result_text.set("🔍 Analyserar bild...")
     progressbar.start()
     root.update_idletasks()
     
-    image = PIL.Image.open(image_path).convert("RGB")  # Konvertera till RGB
+    image = PIL.Image.open(image_path).convert("RGB")  
     image = transform(image).unsqueeze(0).to(device)
     
     try:
@@ -82,14 +82,14 @@ def predict_image(image_path):
     img = add_rounded_corners(img, 30)
     img = ImageTk.PhotoImage(img)
     img_label.config(image=img)
-    img_label.image = img  # Håll referensen alive
+    img_label.image = img 
 
-# 🔹 Tkinter GUI
+
 root = ttk.Window(themename="cyborg")
 root.title("Bildklassificering med ConvNeXt")
 root.geometry("550x650")
 root.resizable(False, False)
-root.attributes('-alpha', 0.95)  # Semi-transparent effekt
+root.attributes('-alpha', 0.95) 
 
 frame = ttk.Frame(root, bootstyle="dark")
 frame.pack(pady=20, padx=20, fill="both", expand=True)
@@ -104,14 +104,14 @@ progressbar.pack(pady=5, fill="x")
 img_label = ttk.Label(frame, bootstyle="secondary", relief="solid", padding=5)
 img_label.pack(pady=10)
 
-# 🔹 Hover-effekter för knappen
+
 def on_enter(e):
     upload_button.config(bootstyle="success")
 
 def on_leave(e):
     upload_button.config(bootstyle="success-outline")
 
-# 🔹 Ladda upp bild
+
 def upload_image():
     file_path = filedialog.askopenfilename(filetypes=[("Bildfiler", "*.png *.jpg *.jpeg")])
     if file_path:
@@ -122,5 +122,5 @@ upload_button.pack(pady=20)
 upload_button.bind("<Enter>", on_enter)
 upload_button.bind("<Leave>", on_leave)
 
-# 🔹 Starta GUI
+
 root.mainloop()
