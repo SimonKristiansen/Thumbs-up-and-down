@@ -13,82 +13,82 @@ import numpy as np
 import sys
 import pickle
 
-# 🔹 Steg 1: Förbered datasetet
+
 dataset_path = "C:/Users/xxx/xxx/model/archive/train/train"
 
-# Förbättrad Data Augmentation (anpassad för ConvNeXt)
+
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # ConvNeXt förväntar sig 224x224
+    transforms.Resize((224, 224)),  
     transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(20),
     transforms.RandomAffine(degrees=0, translate=(0.2, 0.2)),
     transforms.GaussianBlur(3),
     transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],  # Standard ImageNet-värden
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],  
                          std=[0.229, 0.224, 0.225])
 ])
 
-# Ladda dataset
+
 try:
     full_dataset = datasets.ImageFolder(root=dataset_path, transform=transform)
 except Exception as e:
     print(f"⚠️ Fel vid laddning av dataset: {e}")
     sys.exit(1)
 
-# Spara klasserna till class_names.pkl för GUI:t
+
 with open("class_names.pkl", "wb") as f:
     pickle.dump(full_dataset.classes, f)
 print("✅ Sparade klasserna till 'class_names.pkl'!")
 
-# Dela dataset i 80% träning och 20% validering
+
 train_size = int(0.8 * len(full_dataset))
 val_size = len(full_dataset) - train_size
 train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
 
-# Skapa DataLoaders
+
 trainloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 valloader = DataLoader(val_dataset, batch_size=16, shuffle=False)
 
-# Kolla datasetets etiketter
+
 print("Classes found:", full_dataset.classes)
 print("Number of images:", len(full_dataset))
 label_counts = Counter([label for _, label in full_dataset.samples])
 print("Label distribution:", label_counts)
 
-# 🔹 Steg 2: Definiera ConvNeXt-baserad modell
+
 class ConvNeXtClassifier(nn.Module):
     def __init__(self, num_classes):
         super(ConvNeXtClassifier, self).__init__()
-        # Ladda förtränad ConvNeXt Tiny-modell
+        
         self.convnext = models.convnext_tiny(weights=models.ConvNeXt_Tiny_Weights.IMAGENET1K_V1)
         
-        # Frys de förtränade lagren (valfritt, kan ändras)
+       
         for param in self.convnext.parameters():
             param.requires_grad = False
         
-        # Ersätt klassificeringshuvudet
+        
         self.convnext.classifier[2] = nn.Linear(768, num_classes)
 
     def forward(self, x):
-        return self.convnext(x)  # Returnerar logits direkt
+        return self.convnext(x)  
 
-# 🔹 Steg 3: Initialisera modellen
+
 num_classes = len(full_dataset.classes)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ConvNeXtClassifier(num_classes).to(device)
 
-# Ladda tidigare vikter om de finns (för att fortsätta träning)
+
 if os.path.exists("best_model.pth"):
     model.load_state_dict(torch.load("best_model.pth", map_location=device))
     print("✅ Laddade tidigare vikter från 'best_model.pth'!")
 
-# 🔹 Steg 4: Förbättrade träningsparametrar
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.AdamW(model.parameters(), lr=0.00008)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.5)
 
-# 🔹 Steg 5: Träningsfunktion
+
 def train_model():
     epochs = 15
     best_val_loss = float("inf")
@@ -98,7 +98,7 @@ def train_model():
     for epoch in range(epochs):
         print(f"Epoch {epoch+1}/{epochs} påbörjad...")
 
-        # 🔹 Träning
+        
         model.train()
         running_loss = 0.0
         for images, labels in trainloader:
@@ -112,7 +112,7 @@ def train_model():
             optimizer.step()
             running_loss += loss.item()
 
-        # 🔹 Validering
+       
         model.eval()
         val_loss = 0.0
         correct = 0
@@ -133,7 +133,7 @@ def train_model():
 
         print(f"Epoch {epoch+1} klar! Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Val Accuracy: {val_accuracy:.2f}%")
 
-        # 🔹 Early Stopping och sparande
+        
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             early_stop_counter = 0
@@ -147,10 +147,10 @@ def train_model():
 
         scheduler.step()
 
-# 🔹 Steg 6: Prediktionsfunktion
+
 def predict_image(image_path):
     try:
-        image = PIL.Image.open(image_path).convert("RGB")  # Säkerställ RGB-format
+        image = PIL.Image.open(image_path).convert("RGB")  
         image = transform(image).unsqueeze(0).to(device)
     except Exception as e:
         print(f"⚠️ Fel vid laddning av bild: {e}")
@@ -174,9 +174,9 @@ def predict_image(image_path):
     for i, prob in enumerate(probabilities):
         print(f"{full_dataset.classes[i]}: {prob.item() * 100:.2f}%")
 
-# 🔹 Steg 7: Huvudkontroll – Kollar om vi ska träna eller testa bild
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        predict_image(sys.argv[1])  # Om en bild anges, gör en prediktion
+        predict_image(sys.argv[1]) 
     else:
-        train_model()  # Annars starta träning
+        train_model()  
