@@ -11,7 +11,9 @@ Validering: Utvärderar modellens prestanda på ett valideringsdataset efter var
 Early Stopping: Stoppar träningen tidigt om valideringsförlusten inte förbättras.
 Prediktion: Klassificerar enskilda bilder med sannolikhetsfördelning över klasser.
 Modellsparning: Sparar bästa modellen baserat på valideringsförlust.
+
 Förutsättningar
+
 Python 3.8+
 PyTorch (torch, torchvision)
 PIL (Pillow)
@@ -49,15 +51,16 @@ Kör skriptet utan argument för att starta träning:
 
 
 python script.py
-Träningen körs i 15 epoker (konfigurerbart) med en batchstorlek på 16.
+Träningen körs i 15 epoker (detta kan ändras om man vill) med en batchstorlek på 16.
 Datasetet delas automatiskt i 80% träning och 20% validering.
 Den bästa modellen sparas som best_model.pth.
-Klassnamnen sparas som class_names.pkl för senare användning (t.ex. i ett GUI).
+Klassnamnen sparas som class_names.pkl för senare användning, t.ex. i ett GUI.
 2. Prediktera en bild
+
 Ange en bildsökväg som argument för att klassificera en bild:
 
-
 python script.py path/to/image.jpg
+
 Modellen laddar vikterna från best_model.pth.
 Utdata visar den predikterade klassen med konfidens samt sannolikheter för alla klasser.
 Exempelutdata
